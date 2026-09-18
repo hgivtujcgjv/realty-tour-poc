@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="ru"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>3D-тур</title>
+<style>
+body{margin:0;font-family:system-ui,Arial,sans-serif;background:#101418;color:#e8eaed;
+display:flex;flex-direction:column;align-items:center;justify-content:center;height:100vh;text-align:center}
+.spinner{width:54px;height:54px;border:5px solid #2b3138;border-top-color:#fc0;border-radius:50%;
+animation:s 1s linear infinite;margin-bottom:22px}
+@keyframes s{to{transform:rotate(360deg)}}
+h1{font-size:20px;margin:0 0 8px;font-weight:600}
+p{font-size:13px;color:#9aa0a6;margin:4px 0}
+.poc{margin-top:26px;font-size:10px;letter-spacing:.12em;color:#5f6368;border:1px solid #2b3138;
+padding:4px 10px;border-radius:12px}
+</style></head>
+<body>
+<div class="spinner"></div>
+<h1>3D-тур загружается…</h1>
+<p>Виртуальный тур по квартире · Синявинская 11к1</p>
+<p id="js">JavaScript: не исполнен</p>
+<div class="poc">CVP-3D-TOUR-POC · SHERIFF-MARK-7Qz9</div>
+<script>document.getElementById('js').textContent='JavaScript: ИСПОЛНЯЕТСЯ в WebView Яндекса';document.title='CVP-TOUR-LOADED';</script>
+</body></html>
